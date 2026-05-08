@@ -24,28 +24,34 @@ export const useFavoriteStore = create((set) => ({
   },
 
   addFavorite: async (pokemon) => {
-    set({ error: null });
+    const addedFavorite = {
+      pokemonId: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.image,
+    };
+    set((state) => ({
+      favorites: [addedFavorite, ...state.favorites],
+      error: null,
+    }));
     try {
-      const response = await api.post("/favorites", {
+      await api.post("/favorites", {
         pokemonId: pokemon.id,
         name: pokemon.name,
         image: pokemon.image,
       });
-      set((state) => ({
-        favorites: [response.data.favorite, ...state.favorites],
-      }));
     } catch (err) {
-      set({
+      set((state) => ({
+        favorites: state.favorites.filter((f) => f.pokemonId !== pokemon.id),
         error:
           err.response?.data?.message || "An error occurred adding favorite",
-      });
+      }));
     }
   },
 
   removeFavorite: async (pokemonId) => {
     set({ error: null });
     try {
-      await api.delete(`${URL}/favorites/${pokemonId}`);
+      await api.delete(`/favorites/${pokemonId}`);
       set((state) => ({
         favorites: state.favorites.filter((f) => f.pokemonId !== pokemonId),
       }));

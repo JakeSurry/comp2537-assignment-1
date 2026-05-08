@@ -56,7 +56,6 @@ async function addFavorite(req, res) {
     res.status(201).send({
       success: true,
       message: `${name} added to favorites`,
-      favorite,
       log,
     });
   } catch (err) {
