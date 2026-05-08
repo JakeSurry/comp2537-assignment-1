@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 setServers(["8.8.8.8", "8.8.4.4"]);
 
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: process.env.CLIENT_URL.split(","),
