@@ -1,10 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
-
-const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
-
-axios.defaults.withCredentials = true;
+import api from "../lib/axios";
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -16,7 +11,7 @@ export const useAuthStore = create((set) => ({
   register: async (username, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${URL}/auth/register`, {
+      const response = await api.post(`${URL}/auth/register`, {
         username,
         password,
       });
@@ -38,7 +33,7 @@ export const useAuthStore = create((set) => ({
   login: async (username, password, rememberMe) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${URL}/auth/login`, {
+      const response = await api.post(`${URL}/auth/login`, {
         username,
         password,
         rememberMe,
@@ -61,7 +56,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await axios.post(`${URL}/auth/logout`);
+      await api.post(`${URL}/auth/logout`);
       set({
         user: null,
         isAuthenticated: false,
@@ -79,7 +74,7 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
-      const response = await axios.get(`${URL}/auth/me`);
+      const response = await api.get(`${URL}/auth/me`);
       set({
         user: response.data.user,
         isAuthenticated: true,

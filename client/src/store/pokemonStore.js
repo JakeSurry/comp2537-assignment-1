@@ -1,10 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
-
-const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
-
-axios.defaults.withCredentials = true;
+import api from "../lib/axios";
 
 export const usePokemonStore = create((set) => ({
   pokemons: [],
@@ -19,7 +14,7 @@ export const usePokemonStore = create((set) => ({
   fetchPokemons: async (params = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/pokemon`, { params });
+      const response = await api.get(`${URL}/pokemon`, { params });
       set({
         pokemons: response.data.pokemons,
         total: response.data.total,
@@ -39,7 +34,7 @@ export const usePokemonStore = create((set) => ({
   fetchPokemon: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/pokemon/${id}`);
+      const response = await api.get(`${URL}/pokemon/${id}`);
       set({
         pokemon: response.data.pokemon,
         isLoading: false,
@@ -55,7 +50,7 @@ export const usePokemonStore = create((set) => ({
 
   fetchTypes: async () => {
     try {
-      const response = await axios.get(`${URL}/pokemon/types`);
+      const response = await api.get(`${URL}/pokemon/types`);
       set({ types: response.data.types });
     } catch (err) {
       set({

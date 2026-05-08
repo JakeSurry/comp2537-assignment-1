@@ -1,10 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
-
-const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
-
-axios.defaults.withCredentials = true;
+import api from "../lib/axios";
 
 export const useFavoriteStore = create((set) => ({
   favorites: [],
@@ -14,7 +9,7 @@ export const useFavoriteStore = create((set) => ({
   fetchFavorites: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${URL}/favorites`);
+      const response = await api.get(`${URL}/favorites`);
       set({
         favorites: response.data.favorites,
         isLoading: false,
@@ -31,7 +26,7 @@ export const useFavoriteStore = create((set) => ({
   addFavorite: async (pokemon) => {
     set({ error: null });
     try {
-      const response = await axios.post(`${URL}/favorites`, {
+      const response = await api.post(`${URL}/favorites`, {
         pokemonId: pokemon.id,
         name: pokemon.name,
         image: pokemon.image,
@@ -50,7 +45,7 @@ export const useFavoriteStore = create((set) => ({
   removeFavorite: async (pokemonId) => {
     set({ error: null });
     try {
-      await axios.delete(`${URL}/favorites/${pokemonId}`);
+      await api.delete(`${URL}/favorites/${pokemonId}`);
       set((state) => ({
         favorites: state.favorites.filter((f) => f.pokemonId !== pokemonId),
       }));

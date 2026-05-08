@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import NetworkError from "./components/NetworkError";
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -37,8 +38,18 @@ function App() {
 
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader className="animate-spin text-white" size={32} />
+      <div className="min-h-screen bg-linear-to-bl from-red-900 to-blue-900 flex flex-col items-center relative overflow-hidden">
+        <div className="min-h-screen flex flex-col gap-1 items-center text-center justify-center">
+          <Loader className="animate-spin text-white/50 mb-3" size={48} />
+          <p className="text-text font-semibold text-2xl">
+            {" "}
+            Connecting to server...
+          </p>
+          <p className="text-text/70 font-semibold text-xl">
+            {" "}
+            May take up to 1 minute{" "}
+          </p>
+        </div>
       </div>
     );
   }
@@ -61,8 +72,10 @@ function App() {
             path="/register"
             element={
               <RedirectAuthenticatedUser>
-                <div className="fixed inset-0 max-w-5xl mx-auto flex items-center justify-center p-4">
-                  <RegisterPage />
+                <div className="flex flex-1 items-center justify-center">
+                  <div className="w-full -translate-y-18">
+                    <RegisterPage />
+                  </div>
                 </div>
               </RedirectAuthenticatedUser>
             }
@@ -71,14 +84,17 @@ function App() {
             path="/login"
             element={
               <RedirectAuthenticatedUser>
-                <div className="fixed inset-0 max-w-5xl mx-auto flex items-center justify-center p-4">
-                  <LogInPage />
+                <div className="flex flex-1 items-center justify-center">
+                  <div className="w-full -translate-y-18">
+                    <LogInPage />
+                  </div>
                 </div>
               </RedirectAuthenticatedUser>
             }
           />
         </Routes>
       </div>
+      <NetworkError />
     </div>
   );
 }
