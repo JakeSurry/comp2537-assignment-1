@@ -9,7 +9,7 @@ export const useFavoriteStore = create((set) => ({
   fetchFavorites: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`${URL}/favorites`);
+      const response = await api.get("/favorites");
       set({
         favorites: response.data.favorites,
         isLoading: false,
@@ -26,7 +26,7 @@ export const useFavoriteStore = create((set) => ({
   addFavorite: async (pokemon) => {
     set({ error: null });
     try {
-      const response = await api.post(`${URL}/favorites`, {
+      const response = await api.post("/favorites", {
         pokemonId: pokemon.id,
         name: pokemon.name,
         image: pokemon.image,

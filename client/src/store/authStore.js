@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
   register: async (username, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`${URL}/auth/register`, {
+      const response = await api.post("/auth/register", {
         username,
         password,
       });
@@ -33,7 +33,7 @@ export const useAuthStore = create((set) => ({
   login: async (username, password, rememberMe) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`${URL}/auth/login`, {
+      const response = await api.post("/auth/login", {
         username,
         password,
         rememberMe,
@@ -56,7 +56,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await api.post(`${URL}/auth/logout`);
+      await api.post("/auth/logout");
       set({
         user: null,
         isAuthenticated: false,
@@ -74,7 +74,7 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
-      const response = await api.get(`${URL}/auth/me`);
+      const response = await api.get("/auth/me");
       set({
         user: response.data.user,
         isAuthenticated: true,

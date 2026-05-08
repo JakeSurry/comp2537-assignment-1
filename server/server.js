@@ -17,7 +17,12 @@ const PORT = process.env.PORT || 3000;
 
 setServers(["8.8.8.8", "8.8.4.4"]);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://bcit-pokemon-app.netlify.app"],
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(configureSession());

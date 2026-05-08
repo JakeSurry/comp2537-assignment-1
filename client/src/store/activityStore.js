@@ -9,7 +9,7 @@ export const useActivityStore = create((set) => ({
   fetchEvents: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`${URL}/activity`);
+      const response = await api.get("/activity");
       set({
         events: response.data.events,
         isLoading: false,
@@ -26,7 +26,7 @@ export const useActivityStore = create((set) => ({
   deleteEvent: async (eventId) => {
     set({ error: null });
     try {
-      await api.delete(`${URL}/activity/${eventId}`);
+      await api.delete(`/activity/${eventId}`);
       set((state) => ({
         events: state.events.filter((event) => event._id !== eventId),
       }));

@@ -14,7 +14,7 @@ export const usePokemonStore = create((set) => ({
   fetchPokemons: async (params = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`${URL}/pokemon`, { params });
+      const response = await api.get("/pokemon", { params });
       set({
         pokemons: response.data.pokemons,
         total: response.data.total,
@@ -50,7 +50,7 @@ export const usePokemonStore = create((set) => ({
 
   fetchTypes: async () => {
     try {
-      const response = await api.get(`${URL}/pokemon/types`);
+      const response = await api.get("/pokemon/types");
       set({ types: response.data.types });
     } catch (err) {
       set({
