@@ -49,14 +49,16 @@ export const useFavoriteStore = create((set) => ({
   },
 
   removeFavorite: async (pokemonId) => {
-    set({ error: null });
+    const previousFavorites = useFavoriteStore.getState().favorites;
+    set((state) => ({
+      favorites: state.favorites.filter((f) => f.pokemonId !== pokemonId),
+      error: null,
+    }));
     try {
       await api.delete(`/favorites/${pokemonId}`);
-      set((state) => ({
-        favorites: state.favorites.filter((f) => f.pokemonId !== pokemonId),
-      }));
     } catch (err) {
       set({
+        favorites: previousFavorites,
         error:
           err.response?.data?.message || "An error occurred removing favorite",
       });

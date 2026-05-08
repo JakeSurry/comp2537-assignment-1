@@ -24,14 +24,16 @@ export const useActivityStore = create((set) => ({
   },
 
   deleteEvent: async (eventId) => {
-    set({ error: null });
+    const previousEvents = useActivityStore.getState().events;
+    set((state) => ({
+      events: state.events.filter((event) => event._id !== eventId),
+      error: null,
+    }));
     try {
       await api.delete(`/activity/${eventId}`);
-      set((state) => ({
-        events: state.events.filter((event) => event._id !== eventId),
-      }));
     } catch (err) {
       set({
+        events: previousEvents,
         error:
           err.response?.data?.message || "An error occurred deleting event",
       });

@@ -60,29 +60,31 @@ const ActivityPage = () => {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col gap-2">
-          {filteredEvents.map((event, index) => (
-            <motion.div
-              key={event._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.05 }}
-              className="flex items-center justify-between bg-gray-800 bg-opacity-50 backdrop-blur-2xl rounded-xl px-5 py-4 group"
-            >
-              <div>
-                <p className="text-text">{event.description}</p>
-                <p className="text-muted text-sm mt-1">
-                  {new Date(event.createdAt).toLocaleString()}
-                </p>
-              </div>
-              <button
-                onClick={() => deleteEvent(event._id)}
-                className="text-muted hover:text-primary transition duration-200 opacity-0 group-hover:opacity-100 hover:cursor-pointer"
+        <div className="overflow-y-auto no-scrollbar max-h-[calc(100vh-200px)]">
+          <div className="flex flex-col gap-2">
+            {filteredEvents.map((event, index) => (
+              <motion.div
+                key={event._id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: index * 0.05 }}
+                className="flex items-center justify-between bg-gray-800 bg-opacity-50 backdrop-blur-2xl rounded-xl px-5 py-4 group"
               >
-                <Trash2 size={18} />
-              </button>
-            </motion.div>
-          ))}
+                <div>
+                  <p className="text-text">{event.description}</p>
+                  <p className="text-muted text-sm mt-1">
+                    {new Date(event.createdAt).toLocaleString()}
+                  </p>
+                </div>
+                <button
+                  onClick={() => deleteEvent(event._id)}
+                  className="text-muted hover:text-primary transition duration-200 opacity-0 group-hover:opacity-100 hover:cursor-pointer"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </motion.div>
+            ))}
+          </div>
         </div>
       )}
     </div>
