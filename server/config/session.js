@@ -7,7 +7,9 @@ function configureSession() {
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
       maxAge: null,
     },
     store: MongoStore.create({
