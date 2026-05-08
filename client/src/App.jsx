@@ -44,8 +44,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-bl from-red-900 to-blue-900 flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="w-full max-w-5xl">
+    <div className="min-h-screen bg-linear-to-bl from-red-900 to-blue-900 flex flex-col items-center relative overflow-hidden">
+      <div className="flex flex-col flex-1 w-full max-w-5xl">
         <Navbar />
         <Routes>
           <Route
@@ -61,7 +61,9 @@ function App() {
             path="/register"
             element={
               <RedirectAuthenticatedUser>
-                <RegisterPage />
+                <div className="fixed inset-0 max-w-5xl mx-auto flex items-center justify-center p-4">
+                  <RegisterPage />
+                </div>
               </RedirectAuthenticatedUser>
             }
           />
@@ -69,7 +71,9 @@ function App() {
             path="/login"
             element={
               <RedirectAuthenticatedUser>
-                <LogInPage />
+                <div className="fixed inset-0 max-w-5xl mx-auto flex items-center justify-center p-4">
+                  <LogInPage />
+                </div>
               </RedirectAuthenticatedUser>
             }
           />

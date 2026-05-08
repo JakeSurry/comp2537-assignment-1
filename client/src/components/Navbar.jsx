@@ -9,8 +9,8 @@ const Navbar = () => {
   const linkClass = (path) =>
     `flex items-center gap-2 px-4 py-2 rounded-xl transition duration-200 hover:cursor-pointer ${
       location.pathname === path
-        ? "text-red-300 font-bold"
-        : "text-gray-400 hover:text-gray-300"
+        ? "text-primary font-bold"
+        : "text-text hover:text-primary"
     }`;
 
   return (
@@ -32,7 +32,7 @@ const Navbar = () => {
         {isAuthenticated ? (
           <button
             onClick={logout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-400 hover:text-red-300 transition duration-200 hover:cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-text hover:text-primary transition duration-200 hover:cursor-pointer"
           >
             <LogOut size={18} />
             Logout

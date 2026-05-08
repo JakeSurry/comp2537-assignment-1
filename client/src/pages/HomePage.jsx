@@ -3,8 +3,10 @@ import { usePokemonStore } from "../store/pokemonStore";
 import { useFavoriteStore } from "../store/favoriteStore";
 import { useAuthStore } from "../store/authStore";
 import PokemonCard from "../components/PokemonCard";
-import { ChevronLeft, ChevronRight, Search, X, Heart } from "lucide-react";
+import { Search, X, Heart, SearchIcon } from "lucide-react";
 import Select from "../components/Select";
+import Input from "../components/Input";
+import Pagination from "../components/Pagination";
 
 const HomePage = () => {
   const {
@@ -85,18 +87,21 @@ const HomePage = () => {
   if (isLoading && pokemons.length === 0) return null;
 
   return (
-    <>
+    <div className="px-4">
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         {isAuthenticated && (
           <button
             onClick={handleToggleFavorites}
-            className={`flex items-center gap-2 py-3 px-4 bg-gray-800 rounded-xl border-2 transition duration-200 hover:cursor-pointer ${
+            className={`flex items-center gap-2 py-3 px-4 rounded-xl border-2 transition duration-200 hover:cursor-pointer ${
               showFavorites
-                ? "bg-red-300 text-gray-700 border-red-300 font-bold"
-                : "border-gray-700 text-gray-300 hover:border-red-300 hover:text-red-300"
+                ? "bg-primary border-primary text-surface font-bold"
+                : "bg-surface border-muted text-gray-300 hover:border-red-300 hover:text-red-300"
             }`}
           >
-            <Heart size={18} className={showFavorites ? "fill-gray-700" : ""} />
+            <Heart
+              size={18}
+              className={`text-primary ${showFavorites ? "fill-gray-700" : ""}`}
+            />
             Favorites
           </button>
         )}
@@ -104,20 +109,21 @@ const HomePage = () => {
           <form onSubmit={handleSearch} className="relative flex-1">
             <Search
               size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-surface"
             />
-            <input
+            <Input
+              icon={SearchIcon}
+              transparent={false}
               type="text"
               placeholder="Search Pokemon..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 bg-gray-800 bg-opacity-50 backdrop-blur-2xl rounded-xl border-2 border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-red-300 transition duration-200"
             />
             {search && (
               <button
                 type="button"
                 onClick={handleClearSearch}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-300 transition hover:cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-primary transition hover:cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -134,7 +140,6 @@ const HomePage = () => {
               label: t.charAt(0).toUpperCase() + t.slice(1),
             }))}
             placeholder="All Types"
-            disabled={showFavorites}
           />
         )}
         {!showFavorites && (
@@ -142,11 +147,10 @@ const HomePage = () => {
             value={sort}
             onChange={handleSortChange}
             options={[
-              { value: "name", label: "Name A–Z" },
-              { value: "-name", label: "Name Z–A" },
+              { value: "name", label: "Name A-Z" },
+              { value: "-name", label: "Name Z-A" },
             ]}
             placeholder="Default Order"
-            disabled={showFavorites}
           />
         )}
       </div>
@@ -164,36 +168,24 @@ const HomePage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {displayedPokemon.map((pokemon) => (
-            <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          {displayedPokemon.map((pokemon, index) => (
+            <PokemonCard
+              key={pokemon.id}
+              pokemon={pokemon}
+              delay={index * 0.05}
+            />
           ))}
         </div>
       )}
 
       {!showFavorites && totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page <= 1}
-            className="p-2 rounded-xl border-2 border-red-300 text-red-300 hover:bg-red-300 hover:text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-red-300 disabled:cursor-not-allowed transition duration-200 hover:cursor-pointer"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <span className="text-gray-300 font-bold">
-            {page} / {totalPages}
-          </span>
-
-          <button
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page >= totalPages}
-            className="p-2 rounded-xl border-2 border-red-300 text-red-300 hover:bg-red-300 hover:text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-red-300 disabled:cursor-not-allowed transition duration-200 hover:cursor-pointer"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       )}
-    </>
+    </div>
   );
 };
 

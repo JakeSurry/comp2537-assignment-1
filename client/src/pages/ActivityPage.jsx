@@ -26,8 +26,6 @@ const ActivityPage = () => {
 
   return (
     <div className="w-full mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-300 mb-6">Activity</h1>
-
       <div className="flex gap-3 mb-6">
         <Select
           value={typeFilter}
@@ -54,8 +52,8 @@ const ActivityPage = () => {
 
       {filteredEvents.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-400 text-lg">No events found</p>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-text text-lg">No events found</p>
+          <p className="text-muted text-sm mt-1">
             {typeFilter
               ? "Try a different filter"
               : "Your activity will show up here"}
@@ -68,18 +66,18 @@ const ActivityPage = () => {
               key={event._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.03 }}
+              transition={{ duration: 0.2, delay: index * 0.05 }}
               className="flex items-center justify-between bg-gray-800 bg-opacity-50 backdrop-blur-2xl rounded-xl px-5 py-4 group"
             >
               <div>
-                <p className="text-gray-300">{event.description}</p>
-                <p className="text-gray-500 text-sm mt-1">
+                <p className="text-text">{event.description}</p>
+                <p className="text-muted text-sm mt-1">
                   {new Date(event.createdAt).toLocaleString()}
                 </p>
               </div>
               <button
                 onClick={() => deleteEvent(event._id)}
-                className="text-gray-600 hover:text-red-300 transition duration-200 opacity-0 group-hover:opacity-100 hover:cursor-pointer"
+                className="text-muted hover:text-primary transition duration-200 opacity-0 group-hover:opacity-100 hover:cursor-pointer"
               >
                 <Trash2 size={18} />
               </button>

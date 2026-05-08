@@ -3,7 +3,7 @@ import { Heart } from "lucide-react";
 import { useFavoriteStore } from "../store/favoriteStore";
 import { useAuthStore } from "../store/authStore";
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ delay, pokemon }) => {
   const { isAuthenticated } = useAuthStore();
   const { addFavorite, removeFavorite, isFavorite } = useFavoriteStore();
 
@@ -21,22 +21,22 @@ const PokemonCard = ({ pokemon }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
+      animate={{ opacity: 1, y: 0, transition: {delay: delay} }}
       transition={{ duration: 0.3 }}
-      className="relative bg-gray-800 bg-opacity-50 backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden group"
+      whileHover={{ y: -4 }}
+      className="relative bg-surface/80  backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden group"
     >
       {isAuthenticated && (
         <button
           onClick={handleFavoriteToggle}
-          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-900/50 hover:bg-gray-900 transition duration-200 hover:cursor-pointer"
+          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-surface/50 hover:bg-surface transition duration-200 hover:cursor-pointer"
         >
           <Heart
             size={20}
             className={
               favorited
-                ? "fill-red-300 text-red-300"
-                : "text-gray-400 group-hover:text-red-300"
+                ? "fill-primary text-primary"
+                : "text-text group-hover:text-primary"
             }
           />
         </button>
@@ -51,10 +51,10 @@ const PokemonCard = ({ pokemon }) => {
       </div>
 
       <div className="p-4 pt-2 text-center">
-        <p className="text-xs text-gray-500 font-mono">
+        <p className="text-xs text-muted font-mono">
           #{String(pokemon.id).padStart(3, "0")}
         </p>
-        <h2 className="text-lg font-bold text-gray-300 capitalize mt-1">
+        <h2 className="text-lg font-bold text-text capitalize mt-1">
           {pokemon.name}
         </h2>
       </div>
