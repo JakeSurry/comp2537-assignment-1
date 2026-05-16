@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Clock, LogIn, LogOut } from "lucide-react";
+import { Home, Clock, LogIn, LogOut, ShieldUser } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, user, logout } = useAuthStore();
   const location = useLocation();
 
   const linkClass = (path) =>
@@ -24,6 +24,12 @@ const Navbar = () => {
           <Link to="/activity" className={linkClass("/activity")}>
             <Clock size={18} />
             Activity
+          </Link>
+        )}
+        {user?.role === "admin" && (
+          <Link to="/admin" className={linkClass("/admin")}>
+            <ShieldUser size={18} />
+            Admin
           </Link>
         )}
       </div>

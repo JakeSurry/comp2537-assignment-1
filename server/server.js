@@ -14,6 +14,7 @@ import authRoutes from "./routes/auth.routes.js";
 import eventRoutes from "./routes/activity.routes.js";
 import favoriteRoutes from "./routes/favorites.routes.js";
 import pokemonRoutes from "./routes/pokemon.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,7 @@ app.use("/auth", authLimiter, authRoutes);
 app.use("/activity", apiLimiter, eventRoutes);
 app.use("/favorites", apiLimiter, favoriteRoutes);
 app.use("/pokemon", apiLimiter, pokemonRoutes);
+app.use("/admin", adminRoutes)
 
 app.get("/", (req, res) => res.send("Auth server running"));
 

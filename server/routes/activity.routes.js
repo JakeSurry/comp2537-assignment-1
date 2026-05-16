@@ -4,7 +4,9 @@ import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", requireAuth, getEvents);
-router.delete("/:eventId", requireAuth, deleteEvent);
+router.use(requireAuth);
+
+router.get("/", getEvents);
+router.delete("/:eventId", deleteEvent);
 
 export default router;

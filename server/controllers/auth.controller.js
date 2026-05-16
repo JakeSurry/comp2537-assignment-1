@@ -100,15 +100,19 @@ async function login(req, res) {
           .send({ success: false, message: "Server error during login" });
       }
       req.session.userId = user._id;
+      req.session.role = user.role;
       if (rememberMe) {
         req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
       } else {
         req.session.cookie.maxAge = null;
       }
       const log = await logEvent(user._id, "login", "User log in");
-      res
-        .status(200)
-        .send({ success: true, message: "Log in successful", log });
+      res.status(200).send({
+        success: true,
+        message: "Log in successful",
+        user: { _id: user._id, username: user.username, role: user.role },
+        log,
+      });
     });
   } catch (err) {
     console.error("Login error:", err);
@@ -139,7 +143,11 @@ async function me(req, res) {
     if (!user) {
       return res.status(404).send({ success: true, message: "User not found" });
     }
-    res.send(`Authenticated as ${user.username} (id: ${user._id})`);
+    res.send({
+      success: true,
+      message: `Authenticated as ${user.username} (id: ${user._id})`,
+      user: { _id: user._id, username: user.username, role: user.role },
+    });
   } catch (err) {
     console.error("Me error:", err);
     res.status(500).send({ sucess: false, message: "Server error during me" });

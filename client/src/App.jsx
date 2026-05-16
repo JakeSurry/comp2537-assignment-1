@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LogInPage from "./pages/LogInPage";
 import HomePage from "./pages/HomePage";
 import ActivityPage from "./pages/ActivityPage";
+import AdminPage from "./pages/AdminPage";
 import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
@@ -25,6 +26,16 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isAuthenticated) {
     return <Navigate to="/register" replace />;
+  }
+
+  return children;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user } = useAuthStore();
+
+  if (user.role !== "admin") {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -66,6 +77,14 @@ function App() {
               <ProtectedRoute>
                 <ActivityPage />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
             }
           />
           <Route
