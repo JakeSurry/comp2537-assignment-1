@@ -8,6 +8,7 @@ import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import NetworkError from "./components/NetworkError";
+import BattlePage from "./pages/BattlePage";
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -64,6 +65,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ActivityPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/battle"
+            element={
+              <ProtectedRoute>
+                <BattlePage />
               </ProtectedRoute>
             }
           />
