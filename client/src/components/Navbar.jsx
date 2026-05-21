@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Clock, LogIn, LogOut, ShieldUser } from "lucide-react";
+import { Home, Clock, LogIn, LogOut, ShieldUser, Gamepad2 } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
 
 const Navbar = () => {
@@ -24,6 +24,12 @@ const Navbar = () => {
           <Link to="/activity" className={linkClass("/activity")}>
             <Clock size={18} />
             Activity
+          </Link>
+        )}
+        {isAuthenticated && (
+          <Link to="/game" className={linkClass("/game")}>
+            <Gamepad2 size={18} />
+            Game
           </Link>
         )}
         {user?.role === "admin" && (

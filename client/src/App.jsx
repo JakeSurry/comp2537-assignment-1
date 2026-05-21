@@ -9,7 +9,7 @@ import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import NetworkError from "./components/NetworkError";
-import BattlePage from "./pages/BattlePage";
+import GamePage from "./pages/GamePage";
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -88,10 +88,10 @@ function App() {
             }
           />
           <Route
-            path="/battle"
+            path="/game"
             element={
               <ProtectedRoute>
-                <BattlePage />
+                <GamePage />
               </ProtectedRoute>
             }
           />

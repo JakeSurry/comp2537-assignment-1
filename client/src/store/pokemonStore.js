@@ -34,7 +34,7 @@ export const usePokemonStore = create((set) => ({
   fetchPokemon: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`${URL}/pokemon/${id}`);
+      const response = await api.get(`/pokemon/${id}`);
       set({
         pokemon: response.data.pokemon,
         isLoading: false,
